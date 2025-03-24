@@ -36,7 +36,7 @@
         }
         button {
             padding: 10px 20px;
-            background: #FF69B4; /* Pink */
+            background: #FF69B4;
             color: white;
             border: none;
             cursor: pointer;
@@ -62,6 +62,7 @@
             border-radius: 8px;
             color: #FF69B4;
             box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            cursor: pointer;
         }
         .vendor-cards {
             display: flex;
@@ -118,6 +119,7 @@
         }
         .modal-content button {
             margin-top: 20px;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -151,8 +153,8 @@
 <section class="planning-dashboard">
     <h2 style="color:#FF69B4;">Planning Dashboard</h2>
     <div class="features">
-        <div class="feature-box">Tasks Overview</div>
-        <div class="feature-box">Budget Tracker</div>
+        <div class="feature-box" onclick="openTasksModal()">Tasks Overview</div>
+        <div class="feature-box" onclick="openBudgetModal()">Budget Tracker</div>
         <div class="feature-box">Calendar Scheduler</div>
         <div class="feature-box">Chat Support</div>
         <div class="feature-box">AI Suggestions</div>
@@ -196,6 +198,100 @@
         <a href="#">Twitter</a>
     </p>
 </footer>
+
+<!-- Tasks Overview Modal -->
+<div class="modal" id="tasksModal" style="display: none;">
+    <div class="modal-content" style="max-width: 600px; text-align: left; overflow-y: auto; max-height: 80vh;">
+        <h2 style="color: #FF69B4; margin-bottom: 10px;">Your Task Dashboard</h2>
+        <p style="margin-bottom: 20px;">Track and manage your wedding planning to-dos</p>
+        <div style="border-top: 1px solid #eee; padding-top: 15px;">
+            <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                <input type="checkbox" id="task1" style="margin-right: 10px; cursor: pointer;">
+                <label for="task1" style="cursor: pointer;">Finalize wedding theme with planner</label>
+            </div>
+            <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                <input type="checkbox" id="task2" style="margin-right: 10px; cursor: pointer;">
+                <label for="task2" style="cursor: pointer;">Schedule venue visit with family</label>
+            </div>
+            <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                <input type="checkbox" id="task3" style="margin-right: 10px; cursor: pointer;">
+                <label for="task3" style="cursor: pointer;">Confirm photographer and makeup artist</label>
+            </div>
+            <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                <input type="checkbox" id="task4" style="margin-right: 10px; cursor: pointer;">
+                <label for="task4" style="cursor: pointer;">Send invites to guest list</label>
+            </div>
+        </div>
+        <button onclick="closeTasksModal()" style="background-color: #FF69B4;">Close</button>
+    </div>
+</div>
+
+<!-- Budget Tracker Modal -->
+<div class="modal" id="budgetModal" style="display: none;">
+    <div class="modal-content" style="max-width: 600px; text-align: left; overflow-y: auto; max-height: 80vh;">
+        <h2 style="color: #FF69B4; margin-bottom: 10px;">Budget Tracker</h2>
+        <p style="margin-bottom: 20px;">Keep an eye on your wedding expenses</p>
+
+        <p><strong>Target Budget:</strong> ₹6,00,000</p>
+        <p><strong>Total Spent:</strong> ₹5,15,000</p>
+        <p><strong>% of Target Spent:</strong> 85.83%</p>
+
+        <table style="width: 100%; border-collapse: collapse; margin-top: 15px;">
+            <thead>
+                <tr style="background-color: #FFEEF6; color: #FF69B4;">
+                    <th style="padding: 10px; text-align: left;">Category</th>
+                    <th style="padding: 10px; text-align: right;">Budget</th>
+                    <th style="padding: 10px; text-align: right;">Spent</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="padding: 10px;">Venue</td>
+                    <td style="padding: 10px; text-align: right;">₹3,00,000</td>
+                    <td style="padding: 10px; text-align: right;">₹2,50,000</td>
+                </tr>
+                <tr>
+                    <td style="padding: 10px;">Catering</td>
+                    <td style="padding: 10px; text-align: right;">₹2,00,000</td>
+                    <td style="padding: 10px; text-align: right;">₹1,75,000</td>
+                </tr>
+                <tr>
+                    <td style="padding: 10px;">Photography</td>
+                    <td style="padding: 10px; text-align: right;">₹1,00,000</td>
+                    <td style="padding: 10px; text-align: right;">₹90,000</td>
+                </tr>
+            </tbody>
+        </table>
+
+       
+
+        <button onclick="closeBudgetModal()" style="background-color: #FF69B4;">Close</button>
+    </div>
+</div>
+
+
+
+<script>
+    function closeModal() {
+        document.getElementById('disclaimerModal').style.display = 'none';
+    }
+
+    function openTasksModal() {
+        document.getElementById('tasksModal').style.display = 'flex';
+    }
+
+    function closeTasksModal() {
+        document.getElementById('tasksModal').style.display = 'none';
+    }
+
+    function openBudgetModal() {
+        document.getElementById('budgetModal').style.display = 'flex';
+    }
+
+    function closeBudgetModal() {
+        document.getElementById('budgetModal').style.display = 'none';
+    }
+</script>
 
 </body>
 </html>

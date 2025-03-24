@@ -58,7 +58,7 @@
         .feature-box {
             width: 150px;
             padding: 20px;
-            background: white; /* Changed to white */
+            background: white;
             border-radius: 8px;
             color: #FF69B4;
             box-shadow: 0 2px 6px rgba(0,0,0,0.1);
@@ -87,7 +87,7 @@
             color: #FF69B4;
         }
         footer {
-            background-color: #FF69B4; /* Pink */
+            background-color: #FF69B4;
             color: white;
             padding: 20px;
             text-align: center;
@@ -99,9 +99,43 @@
                 align-items: center;
             }
         }
+        .modal {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: rgba(0,0,0,0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 500px;
+            text-align: center;
+            position: relative;
+        }
+        .modal-content button {
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
+
+<div class="modal" id="disclaimerModal">
+    <div class="modal-content">
+        <h2>Disclaimer</h2>
+        <p>This website is a student project created using ChatGPT, intended to study the impact and potential of AI in web development. Feel free to explore and experience the possibilities of AI-powered web solutions!</p>
+        <button onclick="closeModal()">Continue</button>
+    </div>
+</div>
+
+<script>
+    function closeModal() {
+        document.getElementById('disclaimerModal').style.display = 'none';
+    }
+</script>
 
 <!-- Hero Section -->
 <section class="hero-section">
@@ -154,7 +188,6 @@
     </div>
 </section>
 
-<!-- Footer -->
 <footer>
     <p>Wedwise.ai &copy; 2025 | Trusted Wedding Planner</p>
     <p>Follow us: 

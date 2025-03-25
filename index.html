@@ -11,13 +11,14 @@
             font-family: 'Poppins', sans-serif;
         }
         .hero-section {
-            background-image: url('https://www.makeupwale.com/wp-content/uploads/2022/07/Amer-Fort-Jaipur.jpg');
-            background-size: cover;
-            background-position: center;
-            color: white;
-            padding: 100px 20px;
-            position: relative;
-        }
+    		background-size: cover;
+    		background-position: center;
+    		color: white;
+    		padding: 100px 20px;
+    		position: relative;
+    		transition: background-image 1s ease-in-out;
+	}
+
         .hero-overlay {
             background-color: rgba(0,0,0,0.4);
             position: absolute;
@@ -335,6 +336,141 @@
         document.getElementById('budgetModal').style.display = 'none';
     }
 </script>
+
+<style>
+  .hero-section {
+    background-size: cover;
+    background-position: center;
+    color: white;
+    padding: 100px 20px;
+    position: relative;
+    transition: background-image 1s ease-in-out;
+    height: 500px; /* Controls vertical size for layout */
+    overflow: hidden;
+  }
+
+  .slider-nav {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transform: translateY(-50%);
+    z-index: 2;
+    pointer-events: none; /* Let inner buttons be clickable but not whole bar */
+  }
+
+  .slider-nav button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 2.5rem;
+    padding: 0 20px;
+    cursor: pointer;
+    pointer-events: all;
+  }
+
+  .slider-dots {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    z-index: 2;
+  }
+
+  .slider-dots span {
+    width: 10px;
+    height: 10px;
+    background: white;
+    opacity: 0.4;
+    border-radius: 50%;
+    display: inline-block;
+    cursor: pointer;
+    transition: opacity 0.3s;
+  }
+
+  .slider-dots .active {
+    opacity: 1;
+  }
+</style>
+
+
+<!-- Navigation Arrows -->
+<div class="slider-nav">
+  <button onclick="prevSlide()">‹</button>
+  <button onclick="nextSlide()">›</button>
+</div>
+
+<!-- Dot Indicators -->
+<div class="slider-dots" id="sliderDots"></div>
+
+<script>
+  const heroSection = document.querySelector('.hero-section');
+  const heroImages = [
+    "https://www.kalkifashion.com/blogs/wp-content/uploads/2023/01/Wedding-in-udaipur.jpg",
+    "https://media.architecturaldigest.com/photos/5dcc33a8995edd00090eeb8e/16:9/w_1920,c_limit/GettyImages-158630535.jpg",
+    "https://govindaresorts.com/wp-content/uploads/Wedding-destination-1536x1084.jpg",
+    "https://www.backtoculture.com/images/slide%20(1).jpg"
+  ];
+
+
+
+  let currentHeroIndex = 0;
+  let interval;
+
+  const sliderDots = document.getElementById("sliderDots");
+
+  function updateHero() {
+    heroSection.style.backgroundImage = `url('${heroImages[currentHeroIndex]}')`;
+    updateDots();
+  }
+
+  function updateDots() {
+    const dots = sliderDots.querySelectorAll('span');
+    dots.forEach((dot, i) => {
+      dot.className = i === currentHeroIndex ? 'active' : '';
+    });
+  }
+
+  function nextSlide() {
+    currentHeroIndex = (currentHeroIndex + 1) % heroImages.length;
+    updateHero();
+    resetTimer();
+  }
+
+  function prevSlide() {
+    currentHeroIndex = (currentHeroIndex - 1 + heroImages.length) % heroImages.length;
+    updateHero();
+    resetTimer();
+  }
+
+  function goToSlide(index) {
+    currentHeroIndex = index;
+    updateHero();
+    resetTimer();
+  }
+
+  function resetTimer() {
+    clearInterval(interval);
+    interval = setInterval(nextSlide, 5000);
+  }
+
+  // Create dots
+  heroImages.forEach((_, i) => {
+    const dot = document.createElement("span");
+    dot.onclick = () => goToSlide(i);
+    sliderDots.appendChild(dot);
+  });
+
+  // Init
+  updateHero();
+  interval = setInterval(nextSlide, 5000);
+</script>
+
 
 </body>
 </html>

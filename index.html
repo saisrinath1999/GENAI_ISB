@@ -471,6 +471,17 @@
   interval = setInterval(nextSlide, 5000);
 </script>
 
+<!-- Chat Support Modal -->
+<div class="modal" id="chatModal" style="display: none;">
+  <div class="modal-content" style="max-width: 600px; text-align: left; overflow-y: auto; max-height: 80vh;">
+    <h2 style="color: #FF69B4; margin-bottom: 10px;">Chat Support</h2>
+    <div id="chat-messages" style="border: 1px solid #eee; padding: 10px; height: 300px; overflow-y: auto; margin-bottom: 10px;"></div>
+    <input type="text" id="chat-input" placeholder="Ask your wedding assistant..." style="width: 80%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
+    <button onclick="sendMessage()" style="padding: 10px; background-color: #FF69B4; color: white; border: none; border-radius: 4px; cursor: pointer;">Send</button>
+    <button onclick="closeChatModal()" style="margin-left: 10px; background-color: #ccc;">Close</button>
+  </div>
+</div>
+
 
 </body>
 </html>

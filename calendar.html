@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Calendar & Scheduler | Wedwise.ai</title>
-  <link href="https://fonts.googleapis.com/css?family=Poppins&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
   <style>
     body {
       font-family: 'Poppins', sans-serif;
@@ -19,37 +19,46 @@
       text-align: center;
     }
 
-    .gantt-container {
+    .calendar-grid {
+      overflow-x: auto;
       padding: 40px;
-      max-width: 900px;
+    }
+
+    table {
+      border-collapse: collapse;
+      min-width: 1000px;
       margin: auto;
     }
 
-    .gantt-row {
-      display: flex;
-      align-items: center;
-      margin-bottom: 20px;
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: center;
+      min-width: 80px;
+    }
+
+    th {
+      background-color: #FFE4F0;
+      color: #FF69B4;
+      font-size: 0.9rem;
     }
 
     .task-name {
-      width: 200px;
       font-weight: bold;
+      background-color: #FFEEF6;
+      position: sticky;
+      left: 0;
+      background-clip: padding-box;
     }
 
-    .task-bar-container {
-      flex: 1;
-      background-color: #f1f1f1;
-      height: 30px;
-      position: relative;
-      border-radius: 4px;
-    }
-
-    .task-bar {
-      height: 100%;
+    .bar {
+      height: 18px;
       background-color: #FF69B4;
       border-radius: 4px;
-      position: absolute;
     }
+
+    .bar.blue { background-color: #87CEFA; }
+    .bar.yellow { background-color: #FFD700; }
 
     footer {
       background-color: #FF69B4;
@@ -64,44 +73,63 @@
 
 <header>
   <h1>Calendar & Scheduler</h1>
-  <p>Track major milestones and tasks visually</p>
+  <p>Plan your wedding tasks day-by-day</p>
 </header>
 
-<div class="gantt-container">
-  <div class="gantt-row">
-    <div class="task-name">Book Venue</div>
-    <div class="task-bar-container">
-      <div class="task-bar" style="left: 0%; width: 25%;"></div>
-    </div>
-  </div>
-  <div class="gantt-row">
-    <div class="task-name">Select Caterer</div>
-    <div class="task-bar-container">
-      <div class="task-bar" style="left: 10%; width: 30%;"></div>
-    </div>
-  </div>
-  <div class="gantt-row">
-    <div class="task-name">Send Invitations</div>
-    <div class="task-bar-container">
-      <div class="task-bar" style="left: 40%; width: 20%;"></div>
-    </div>
-  </div>
-  <div class="gantt-row">
-    <div class="task-name">Mehendi & Makeup Trials</div>
-    <div class="task-bar-container">
-      <div class="task-bar" style="left: 60%; width: 15%;"></div>
-    </div>
-  </div>
-  <div class="gantt-row">
-    <div class="task-name">Wedding Day</div>
-    <div class="task-bar-container">
-      <div class="task-bar" style="left: 90%; width: 5%; background-color: #FF1493;"></div>
-    </div>
-  </div>
+<div class="calendar-grid">
+  <table>
+    <thead>
+      <tr>
+        <th>Task</th>
+        <th>Mar 28</th>
+        <th>Mar 29</th>
+        <th>Mar 30</th>
+        <th>Mar 31</th>
+        <th>Apr 1</th>
+        <th>Apr 2</th>
+        <th>Apr 3</th>
+        <th>Apr 4</th>
+        <th>Apr 5</th>
+        <th>Apr 6</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="task-name">Book Venue</td>
+        <td class="bar" colspan="2"></td>
+        <td class="bar yellow" colspan="2"></td>
+        <td></td><td></td><td></td><td></td><td></td><td></td>
+      </tr>
+      <tr>
+        <td class="task-name">Select Caterer</td>
+        <td></td><td></td>
+        <td class="bar yellow" colspan="3"></td>
+        <td></td><td></td><td></td><td></td>
+      </tr>
+      <tr>
+        <td class="task-name">Send Invitations</td>
+        <td></td><td></td><td></td>
+        <td class="bar blue" colspan="3"></td>
+        <td></td><td></td><td></td>
+      </tr>
+      <tr>
+        <td class="task-name">Makeup Trials</td>
+        <td></td><td></td><td></td><td></td>
+        <td></td><td class="bar blue" colspan="2"></td>
+        <td></td><td></td>
+      </tr>
+      <tr>
+        <td class="task-name">Wedding Day</td>
+        <td></td><td></td><td></td><td></td><td></td><td></td>
+        <td></td><td></td><td class="bar" colspan="1"></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
 </div>
 
 <footer>
-  <p>Wedwise.ai &copy; 2025 | Plan Beautifully</p>
+  <p>Wedwise.ai &copy; 2025 | Daily Wedding Planner</p>
 </footer>
 
 </body>

@@ -49,16 +49,37 @@
       position: sticky;
       left: 0;
       background-clip: padding-box;
+      z-index: 1;
     }
 
     .bar {
       height: 18px;
-      background-color: #FF69B4;
       border-radius: 4px;
     }
 
-    .bar.blue { background-color: #87CEFA; }
-    .bar.yellow { background-color: #FFD700; }
+    .confirmed { background-color: #87CEFA; }
+    .unconfirmed { background-color: #FFD700; }
+
+    .form-container {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .form-container input, .form-container select {
+      padding: 8px;
+      margin: 5px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+
+    .form-container button {
+      background-color: #FF69B4;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      cursor: pointer;
+      border-radius: 4px;
+    }
 
     footer {
       background-color: #FF69B4;
@@ -66,6 +87,12 @@
       padding: 20px;
       text-align: center;
       margin-top: 40px;
+    }
+
+    .delete-btn {
+      color: red;
+      cursor: pointer;
+      font-weight: bold;
     }
   </style>
 </head>
@@ -76,61 +103,98 @@
   <p>Plan your wedding tasks day-by-day</p>
 </header>
 
+<div class="form-container">
+  <input type="text" id="taskName" placeholder="Task Name" />
+  <input type="date" id="startDate" />
+  <input type="date" id="endDate" />
+  <select id="status">
+    <option value="confirmed">Confirmed</option>
+    <option value="unconfirmed">Unconfirmed</option>
+  </select>
+  <button onclick="addTask()">Add Task</button>
+</div>
+
 <div class="calendar-grid">
-  <table>
+  <table id="calendarTable">
     <thead>
       <tr>
         <th>Task</th>
-        <th>Mar 28</th>
-        <th>Mar 29</th>
-        <th>Mar 30</th>
-        <th>Mar 31</th>
-        <th>Apr 1</th>
-        <th>Apr 2</th>
-        <th>Apr 3</th>
-        <th>Apr 4</th>
-        <th>Apr 5</th>
-        <th>Apr 6</th>
+        <script>
+          const today = new Date();
+          window.dateColumns = []; // store dates for matching later
+
+          for (let i = 0; i < 10; i++) {
+            const d = new Date(today);
+            d.setDate(today.getDate() + i);
+            const label = d.toDateString().slice(4, 10);
+            document.write(`<th>${label}</th>`);
+            dateColumns.push(new Date(d.toDateString()));
+          }
+        </script>
       </tr>
     </thead>
-    <tbody>
-      <tr>
-        <td class="task-name">Book Venue</td>
-        <td class="bar" colspan="2"></td>
-        <td class="bar yellow" colspan="2"></td>
-        <td></td><td></td><td></td><td></td><td></td><td></td>
-      </tr>
-      <tr>
-        <td class="task-name">Select Caterer</td>
-        <td></td><td></td>
-        <td class="bar yellow" colspan="3"></td>
-        <td></td><td></td><td></td><td></td>
-      </tr>
-      <tr>
-        <td class="task-name">Send Invitations</td>
-        <td></td><td></td><td></td>
-        <td class="bar blue" colspan="3"></td>
-        <td></td><td></td><td></td>
-      </tr>
-      <tr>
-        <td class="task-name">Makeup Trials</td>
-        <td></td><td></td><td></td><td></td>
-        <td></td><td class="bar blue" colspan="2"></td>
-        <td></td><td></td>
-      </tr>
-      <tr>
-        <td class="task-name">Wedding Day</td>
-        <td></td><td></td><td></td><td></td><td></td><td></td>
-        <td></td><td></td><td class="bar" colspan="1"></td>
-        <td></td>
-      </tr>
-    </tbody>
+    <tbody id="taskBody"></tbody>
   </table>
 </div>
 
 <footer>
   <p>Wedwise.ai &copy; 2025 | Daily Wedding Planner</p>
 </footer>
+
+<script>
+  const taskBody = document.getElementById('taskBody');
+
+  function addTask(name, startDate, endDate, status, isInitial = false) {
+    const nameVal = isInitial ? name : document.getElementById('taskName').value.trim();
+    const start = isInitial ? new Date(startDate) : new Date(document.getElementById('startDate').value);
+    const end = isInitial ? new Date(endDate) : new Date(document.getElementById('endDate').value);
+    const statusVal = isInitial ? status : document.getElementById('status').value;
+
+    if (!nameVal || isNaN(start) || isNaN(end)) {
+      if (!isInitial) alert("Please fill all fields correctly.");
+      return;
+    }
+
+    const tr = document.createElement('tr');
+    const nameCell = document.createElement('td');
+    nameCell.className = 'task-name';
+    nameCell.innerHTML = `${nameVal} <span class="delete-btn" onclick="this.closest('tr').remove()">✖</span>`;
+    tr.appendChild(nameCell);
+
+    for (let i = 0; i < 10; i++) {
+      const cellDate = new Date(dateColumns[i]);
+      const td = document.createElement('td');
+
+      if (cellDate >= start && cellDate <= end) {
+        td.classList.add('bar', statusVal);
+      }
+
+      tr.appendChild(td);
+    }
+
+    taskBody.appendChild(tr);
+
+    if (!isInitial) {
+      document.getElementById('taskName').value = '';
+      document.getElementById('startDate').value = '';
+      document.getElementById('endDate').value = '';
+    }
+  }
+
+  // 🟢 Preloaded sample tasks
+  window.onload = function () {
+    const today = new Date();
+    const formatDate = (offset) => {
+      const d = new Date(today);
+      d.setDate(today.getDate() + offset);
+      return d.toISOString().split('T')[0];
+    };
+
+    addTask("Venue Visit", formatDate(1), formatDate(4), "confirmed", true);
+    addTask("Dress Trial", formatDate(4), formatDate(5), "unconfirmed", true);
+    addTask("Photographer Meet", formatDate(5), formatDate(6), "confirmed", true);
+  };
+</script>
 
 </body>
 </html>

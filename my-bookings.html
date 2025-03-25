@@ -2,136 +2,229 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <title>My Bookings - Wedwise.ai</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Bookings | Wedwise.ai</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Poppins&display=swap" rel="stylesheet">
   <style>
     body {
       font-family: 'Poppins', sans-serif;
       margin: 0;
-      background-color: #fff5fb;
+      padding: 0;
+      background-color: #fff0f6;
     }
+
     header {
       background-color: #FF69B4;
       color: white;
       padding: 20px;
       text-align: center;
     }
-    .booking-container {
-      max-width: 1000px;
-      margin: 40px auto;
-      background: white;
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+
+    h1 {
+      margin: 0;
     }
+
+    main {
+      padding: 40px 20px;
+      max-width: 900px;
+      margin: auto;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
     h2 {
       color: #FF69B4;
       margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
+
+    .add-booking-btn {
+      background-color: #FF69B4;
+      color: white;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 4px;
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+
     table {
       width: 100%;
       border-collapse: collapse;
+      margin-top: 20px;
     }
+
     th, td {
       padding: 12px 15px;
+      border-bottom: 1px solid #eee;
       text-align: left;
     }
+
     th {
       background-color: #FFEEF6;
       color: #FF69B4;
     }
-    tr:nth-child(even) {
-      background-color: #f9f9f9;
-    }
+
     .action-btn {
-      padding: 6px 12px;
       background-color: #FF69B4;
       color: white;
       border: none;
+      padding: 6px 12px;
       border-radius: 4px;
       cursor: pointer;
-      font-size: 0.9rem;
-      margin-right: 5px;
     }
-    .action-btn:hover {
-      background-color: #e558a0;
+
+    .action-btn:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
     }
+
     .status {
-      padding: 4px 8px;
-      border-radius: 4px;
       font-weight: bold;
-      font-size: 0.85rem;
     }
-    .confirmed {
-      background-color: #c7f5d9;
-      color: #1a7f3f;
+
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: rgba(0,0,0,0.5);
+      z-index: 999;
+      align-items: center;
+      justify-content: center;
     }
-    .pending {
-      background-color: #fff3cd;
-      color: #856404;
+
+    .modal-content {
+      background: white;
+      padding: 25px 30px;
+      border-radius: 8px;
+      text-align: center;
+      max-width: 400px;
     }
-    .cancelled {
-      background-color: #f8d7da;
-      color: #721c24;
+
+    .modal-content p {
+      margin-bottom: 20px;
+    }
+
+    .modal-content button {
+      padding: 8px 16px;
+      margin: 0 10px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .confirm-btn {
+      background-color: #FF69B4;
+      color: white;
+    }
+
+    .cancel-btn {
+      background-color: #ccc;
     }
   </style>
 </head>
 <body>
 
-<header>
-  <h1>My Bookings</h1>
-  <p>Track and manage all your wedding bookings</p>
-</header>
+  <header>
+    <h1>Wedwise.ai</h1>
+  </header>
 
-<div class="booking-container">
-  <h2>Upcoming & Past Bookings</h2>
-  <table>
-    <thead>
-      <tr>
-        <th>Vendor</th>
-        <th>Category</th>
-        <th>Date</th>
-        <th>Time</th>
-        <th>Status</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Royal Palace, Jaipur</td>
-        <td>Venue</td>
-        <td>April 15, 2025</td>
-        <td>5:00 PM</td>
-        <td><span class="status confirmed">Confirmed</span></td>
-        <td>
-          <button class="action-btn">View</button>
-          <button class="action-btn">Cancel</button>
-        </td>
-      </tr>
-      <tr>
-        <td>Floral Fantasy</td>
-        <td>Decor</td>
-        <td>April 14, 2025</td>
-        <td>9:00 AM</td>
-        <td><span class="status pending">Pending</span></td>
-        <td>
-          <button class="action-btn">View</button>
-        </td>
-      </tr>
-      <tr>
-        <td>ShutterBliss Studio</td>
-        <td>Photography</td>
-        <td>April 16, 2025</td>
-        <td>3:30 PM</td>
-        <td><span class="status cancelled">Cancelled</span></td>
-        <td>
-          <button class="action-btn">View</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</div>
+  <main>
+    <h2>
+      My Bookings
+      <button class="add-booking-btn" onclick="newBooking()">+ Make a New Booking</button>
+    </h2>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Vendor</th>
+          <th>Date</th>
+          <th>Time</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Floral Designers</td>
+          <td>2025-04-10</td>
+          <td>11:00 AM</td>
+          <td class="status">Confirmed</td>
+          <td class="actions"><button class="action-btn">Cancel</button></td>
+        </tr>
+        <tr>
+          <td>City Palace Caterers</td>
+          <td>2025-04-11</td>
+          <td>2:00 PM</td>
+          <td class="status">Confirmed</td>
+          <td class="actions"><button class="action-btn">Cancel</button></td>
+        </tr>
+        <tr>
+          <td>Wedding Photographer Pro</td>
+          <td>2025-04-12</td>
+          <td>4:00 PM</td>
+          <td class="status">Confirmed</td>
+          <td class="actions"><button class="action-btn">Cancel</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </main>
+
+  <!-- Confirmation Modal -->
+  <div class="modal-overlay" id="confirmModal">
+    <div class="modal-content">
+      <p>Are you sure you want to cancel this appointment?</p>
+      <button id="confirmYes" class="confirm-btn">Yes</button>
+      <button onclick="closeModal()" class="cancel-btn">No</button>
+    </div>
+  </div>
+
+  <script>
+    let rowToModify = null;
+
+    function openConfirmModal(button) {
+      rowToModify = button.closest("tr");
+      document.getElementById("confirmModal").style.display = "flex";
+    }
+
+    function closeModal() {
+      document.getElementById("confirmModal").style.display = "none";
+      rowToModify = null;
+    }
+
+    function confirmCancel() {
+      if (rowToModify) {
+        const statusCell = rowToModify.querySelector("td.status");
+        const actionCell = rowToModify.querySelector("td.actions");
+
+        statusCell.textContent = "Cancelled";
+        statusCell.style.color = "#999";
+        actionCell.innerHTML = '<span style="color: #aaa;">N/A</span>';
+      }
+      closeModal();
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+      document.querySelectorAll(".action-btn").forEach(button => {
+        if (button.textContent.trim().toLowerCase() === "cancel") {
+          button.addEventListener("click", function () {
+            openConfirmModal(button);
+          });
+        }
+      });
+
+      document.getElementById("confirmYes").addEventListener("click", confirmCancel);
+    });
+
+    function newBooking() {
+      alert("🔧 This will take you to the booking page! (You can link this to your real booking form)");
+      // Replace with actual link: window.location.href = "new-booking.html";
+    }
+  </script>
 
 </body>
 </html>

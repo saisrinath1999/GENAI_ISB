@@ -328,11 +328,12 @@
 
 <script>
   const taskListEl = document.getElementById("taskList");
+  let hasLoadedInitialTasks = false;
 
-  function addTask() {
+  function addTask(taskText = null, preload = false) {
     const input = document.getElementById("newTaskInput");
-    const taskText = input.value.trim();
-    if (!taskText) return;
+    const text = taskText || input.value.trim();
+    if (!text) return;
 
     const taskDiv = document.createElement("div");
     taskDiv.style.display = "flex";
@@ -341,7 +342,7 @@
     taskDiv.style.marginBottom = "10px";
 
     const label = document.createElement("label");
-    label.textContent = taskText;
+    label.textContent = text;
     label.style.cursor = "pointer";
 
     const checkbox = document.createElement("input");
@@ -367,7 +368,23 @@
     taskDiv.appendChild(deleteBtn);
 
     taskListEl.appendChild(taskDiv);
-    input.value = "";
+    if (!preload) input.value = "";
+  }
+
+  function openTasksModal() {
+    document.getElementById('tasksModal').style.display = 'flex';
+
+    // Load default tasks only once
+    if (!hasLoadedInitialTasks) {
+      addTask("Finalize wedding invites", true);
+      addTask("Book mehendi artist", true);
+      addTask("Rehearsal dinner prep", true);
+      hasLoadedInitialTasks = true;
+    }
+  }
+
+  function closeTasksModal() {
+    document.getElementById('tasksModal').style.display = 'none';
   }
 </script>
 

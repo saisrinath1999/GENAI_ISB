@@ -1,137 +1,476 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Bookings | Wedwise.ai</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
-  <style>
-    body {
-      font-family: 'Poppins', sans-serif;
-      margin: 0;
-      background-color: #fff5fb;
-    }
-    header {
-      background-color: #FF69B4;
-      color: white;
-      padding: 20px;
-      text-align: center;
-    }
-    .booking-container {
-      max-width: 1000px;
-      margin: 40px auto;
-      background: white;
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-    h2 {
-      color: #FF69B4;
-      margin-bottom: 20px;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-    th, td {
-      padding: 12px 15px;
-      text-align: left;
-    }
-    th {
-      background-color: #FFEEF6;
-      color: #FF69B4;
-    }
-    tr:nth-child(even) {
-      background-color: #f9f9f9;
-    }
-    .action-btn {
-      padding: 6px 12px;
-      background-color: #FF69B4;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 0.9rem;
-      margin-right: 5px;
-    }
-    .action-btn:hover {
-      background-color: #e558a0;
-    }
-    .status {
-      padding: 4px 8px;
-      border-radius: 4px;
-      font-weight: bold;
-      font-size: 0.85rem;
-    }
-    .confirmed {
-      background-color: #c7f5d9;
-      color: #1a7f3f;
-    }
-    .pending {
-      background-color: #fff3cd;
-      color: #856404;
-    }
-    .cancelled {
-      background-color: #f8d7da;
-      color: #721c24;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wedwise.ai - Your One-Stop Wedding Solution</title>
+    <link href="https://fonts.googleapis.com/css?family=Poppins&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0; padding: 0; box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        .hero-section {
+    		background-size: cover;
+    		background-position: center;
+    		color: white;
+    		padding: 100px 20px;
+    		position: relative;
+    		transition: background-image 1s ease-in-out;
+	}
+
+        .hero-overlay {
+            background-color: rgba(0,0,0,0.4);
+            position: absolute;
+            inset: 0;
+        }
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 700px;
+        }
+        .hero-content h1 {
+            font-size: 3rem;
+        }
+        .hero-content p {
+            margin: 15px 0;
+        }
+        button {
+            padding: 10px 20px;
+            background: #FF69B4;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            border-radius: 4px;
+        }
+        .planning-dashboard, .vendor-section {
+            padding: 50px 20px;
+            text-align: center;
+            background-color: white;
+        }
+        .features {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .feature-box {
+            width: 150px;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            color: #FF69B4;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            cursor: pointer;
+        }
+        .vendor-cards {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .vendor-card {
+            width: 300px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+        .vendor-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        .vendor-info {
+            padding: 15px;
+            background-color: #FFEEF6;
+            color: #FF69B4;
+        }
+        footer {
+            background-color: #FF69B4;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        a {color: white;}
+        @media (max-width: 768px) {
+            .features, .vendor-cards {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+        .modal {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: rgba(0,0,0,0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 500px;
+            text-align: center;
+            position: relative;
+        }
+        .modal-content button {
+            margin-top: 20px;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
 
-<header>
-  <h1>My Bookings</h1>
-  <p>Track and manage all your wedding bookings</p>
-</header>
-
-<div class="booking-container">
-  <h2>Upcoming & Past Bookings</h2>
-  <table>
-    <thead>
-      <tr>
-        <th>Vendor</th>
-        <th>Category</th>
-        <th>Date</th>
-        <th>Time</th>
-        <th>Status</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Royal Palace, Jaipur</td>
-        <td>Venue</td>
-        <td>April 15, 2025</td>
-        <td>5:00 PM</td>
-        <td><span class="status confirmed">Confirmed</span></td>
-        <td>
-          <button class="action-btn">View</button>
-          <button class="action-btn">Cancel</button>
-        </td>
-      </tr>
-      <tr>
-        <td>Floral Fantasy</td>
-        <td>Decor</td>
-        <td>April 14, 2025</td>
-        <td>9:00 AM</td>
-        <td><span class="status pending">Pending</span></td>
-        <td>
-          <button class="action-btn">View</button>
-        </td>
-      </tr>
-      <tr>
-        <td>ShutterBliss Studio</td>
-        <td>Photography</td>
-        <td>April 16, 2025</td>
-        <td>3:30 PM</td>
-        <td><span class="status cancelled">Cancelled</span></td>
-        <td>
-          <button class="action-btn">View</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+<div class="modal" id="disclaimerModal">
+    <div class="modal-content">
+        <h2>Disclaimer</h2>
+        <p>This website is a student project created using ChatGPT, intended to study the impact and potential of AI in web development. Feel free to explore and experience the possibilities of AI-powered web solutions!</p>
+        <button onclick="closeModal()">Continue</button>
+    </div>
 </div>
+
+<script>
+    function closeModal() {
+        document.getElementById('disclaimerModal').style.display = 'none';
+    }
+</script>
+
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+        <h1>Find the Perfect Venue</h1>
+        <p>Discover top wedding vendors across India.</p>
+        <button>Search Venues</button>
+    </div>
+</section>
+
+<!-- Planning Dashboard -->
+<section class="planning-dashboard">
+  <h2 style="color:#FF69B4;">Planning Dashboard</h2>
+  <div class="features">
+    <div class="feature-box" onclick="openTasksModal()">Task Manager</div>
+    <div class="feature-box" onclick="openBudgetModal()">Budget Tracker</div>
+    <div class="feature-box" onclick="window.location.href='calendar.html'">Calendar & Scheduler</div>
+    <div class="feature-box" onclick="window.location.href='my-bookings.html'">My Bookings</div>
+    <div class="feature-box" onclick="openChatModal()">Chat Support</div>
+  </div>
+</section>
+
+<!-- Top Rated Vendors -->
+<section class="vendor-section">
+    <h2 style="color:#FF69B4;">Top Rated Vendors This Week</h2>
+    <div class="vendor-cards">
+        <div class="vendor-card">
+            <img src="https://i.pinimg.com/originals/41/8e/31/418e31e3f87e6c7180e67360b8addce9.jpg">
+            <div class="vendor-info">
+                <h3>Floral Designers</h3>
+                <p>Starting from ₹15,000</p>
+            </div>
+        </div>
+        <div class="vendor-card">
+            <img src="https://th.bing.com/th/id/R.512ec083d8aedf43da314d7cc51019f4?rik=FaTQ2swnGHm7IA&riu=http%3a%2f%2fwww.weddingsonline.in%2fblog%2fwp-content%2fuploads%2f2016%2f08%2fTS-Drones.jpg&ehk=WrY1%2f6t%2bMiKCQytkGyNLW8AF%2b28i5CrAj7P%2bI1dWGSA%3d&risl=&pid=ImgRaw&r=0">
+            <div class="vendor-info">
+                <h3>Photography</h3>
+                <p>Starting from ₹50,000</p>
+            </div>
+        </div>
+        <div class="vendor-card">
+            <img src="https://i.pinimg.com/originals/9c/1a/99/9c1a99a810b915e0685df3e0ef97d23f.jpg">
+            <div class="vendor-info">
+                <h3>Catering Services</h3>
+                <p>Starting from ₹70,000</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <p>Wedwise.ai &copy; 2025 | Trusted Wedding Planner</p>
+    <p>Follow us: 
+        <a href="#">Instagram</a> | 
+        <a href="#">Facebook</a> | 
+        <a href="#">Twitter</a>
+    </p>
+</footer>
+
+<!-- Tasks Overview Modal -->
+<div class="modal" id="tasksModal" style="display: none;">
+    <div class="modal-content" style="max-width: 600px; text-align: left; overflow-y: auto; max-height: 80vh;">
+        <h2 style="color: #FF69B4; margin-bottom: 10px;">Your Task Dashboard</h2>
+        <p style="margin-bottom: 20px;">Track and manage your wedding planning to-dos</p>
+        <div style="border-top: 1px solid #eee; padding-top: 15px;">
+            <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                <input type="checkbox" id="task1" style="margin-right: 10px; cursor: pointer;">
+                <label for="task1" style="cursor: pointer;">Finalize wedding theme with planner</label>
+            </div>
+            <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                <input type="checkbox" id="task2" style="margin-right: 10px; cursor: pointer;">
+                <label for="task2" style="cursor: pointer;">Schedule venue visit with family</label>
+            </div>
+            <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                <input type="checkbox" id="task3" style="margin-right: 10px; cursor: pointer;">
+                <label for="task3" style="cursor: pointer;">Confirm photographer and makeup artist</label>
+            </div>
+            <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                <input type="checkbox" id="task4" style="margin-right: 10px; cursor: pointer;">
+                <label for="task4" style="cursor: pointer;">Send invites to guest list</label>
+            </div>
+        </div>
+        <button onclick="closeTasksModal()" style="background-color: #FF69B4;">Close</button>
+    </div>
+</div>
+
+<!-- Budget Tracker Modal -->
+<div class="modal" id="budgetModal" style="display: none;">
+    <div class="modal-content" style="max-width: 600px; text-align: left; overflow-y: auto; max-height: 80vh;">
+        <h2 style="color: #FF69B4; margin-bottom: 10px;">Budget Tracker</h2>
+        <p style="margin-bottom: 20px;">Keep an eye on your wedding expenses</p>
+
+        <p><strong>Target Budget:</strong> ₹6,00,000</p>
+        <p><strong>Total Spent:</strong> ₹5,15,000</p>
+        <p><strong>% of Target Spent:</strong> 85.83%</p>
+
+        <table style="width: 100%; border-collapse: collapse; margin-top: 15px;">
+            <thead>
+                <tr style="background-color: #FFEEF6; color: #FF69B4;">
+                    <th style="padding: 10px; text-align: left;">Category</th>
+                    <th style="padding: 10px; text-align: right;">Budget</th>
+                    <th style="padding: 10px; text-align: right;">Spent</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="padding: 10px;">Venue</td>
+                    <td style="padding: 10px; text-align: right;">₹3,00,000</td>
+                    <td style="padding: 10px; text-align: right;">₹2,50,000</td>
+                </tr>
+                <tr>
+                    <td style="padding: 10px;">Catering</td>
+                    <td style="padding: 10px; text-align: right;">₹2,00,000</td>
+                    <td style="padding: 10px; text-align: right;">₹1,75,000</td>
+                </tr>
+                <tr>
+                    <td style="padding: 10px;">Photography</td>
+                    <td style="padding: 10px; text-align: right;">₹1,00,000</td>
+                    <td style="padding: 10px; text-align: right;">₹90,000</td>
+                </tr>
+            </tbody>
+        </table>
+
+       
+
+        <button onclick="closeBudgetModal()" style="background-color: #FF69B4;">Close</button>
+    </div>
+</div>
+
+<!-- Venue Page Trigger Script -->
+<script>
+  function openChatModal() {
+    document.getElementById('chatModal').style.display = 'flex';
+  }
+
+  function closeChatModal() {
+    document.getElementById('chatModal').style.display = 'none';
+  }
+
+  async function sendMessage() {
+    const input = document.getElementById('chat-input');
+    const userMessage = input.value.trim();
+    if (!userMessage) return;
+
+    const chatBox = document.getElementById('chat-messages');
+    chatBox.innerHTML += `<p><strong>You:</strong> ${userMessage}</p>`;
+    input.value = '';
+
+    try {
+      const response = await fetch('https://your-backend-url/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: userMessage })
+      });
+
+      const data = await response.json();
+      chatBox.innerHTML += `<p><strong>Wedwise.ai:</strong> ${data.reply}</p>`;
+      chatBox.scrollTop = chatBox.scrollHeight;
+    } catch (error) {
+      chatBox.innerHTML += `<p style="color:red;"><strong>Error:</strong> Unable to fetch response.</p>`;
+    }
+  }
+
+  // Venue button redirects to a new page
+  document.addEventListener("DOMContentLoaded", function () {
+    const venueButton = document.querySelector(".hero-content button");
+    if (venueButton) {
+      venueButton.addEventListener("click", function () {
+        window.location.href = "venues.html";
+      });
+    }
+  });
+</script>
+
+
+<script>
+    function closeModal() {
+        document.getElementById('disclaimerModal').style.display = 'none';
+    }
+
+    function openTasksModal() {
+        document.getElementById('tasksModal').style.display = 'flex';
+    }
+
+    function closeTasksModal() {
+        document.getElementById('tasksModal').style.display = 'none';
+    }
+
+    function openBudgetModal() {
+        document.getElementById('budgetModal').style.display = 'flex';
+    }
+
+    function closeBudgetModal() {
+        document.getElementById('budgetModal').style.display = 'none';
+    }
+</script>
+
+<style>
+  .hero-section {
+    background-size: cover;
+    background-position: center;
+    color: white;
+    padding: 100px 20px;
+    position: relative;
+    transition: background-image 1s ease-in-out;
+    height: 500px; /* Controls vertical size for layout */
+    overflow: hidden;
+  }
+
+  .slider-nav {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transform: translateY(-50%);
+    z-index: 2;
+    pointer-events: none; /* Let inner buttons be clickable but not whole bar */
+  }
+
+  .slider-nav button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 2.5rem;
+    padding: 0 20px;
+    cursor: pointer;
+    pointer-events: all;
+  }
+
+  .slider-dots {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    z-index: 2;
+  }
+
+  .slider-dots span {
+    width: 10px;
+    height: 10px;
+    background: white;
+    opacity: 0.4;
+    border-radius: 50%;
+    display: inline-block;
+    cursor: pointer;
+    transition: opacity 0.3s;
+  }
+
+  .slider-dots .active {
+    opacity: 1;
+  }
+</style>
+
+
+<!-- Navigation Arrows -->
+<div class="slider-nav">
+  <button onclick="prevSlide()">‹</button>
+  <button onclick="nextSlide()">›</button>
+</div>
+
+<!-- Dot Indicators -->
+<div class="slider-dots" id="sliderDots"></div>
+
+<script>
+  const heroSection = document.querySelector('.hero-section');
+  const heroImages = [
+    "https://www.kalkifashion.com/blogs/wp-content/uploads/2023/01/Wedding-in-udaipur.jpg",
+    "https://media.architecturaldigest.com/photos/5dcc33a8995edd00090eeb8e/16:9/w_1920,c_limit/GettyImages-158630535.jpg",
+    "https://govindaresorts.com/wp-content/uploads/Wedding-destination-1536x1084.jpg",
+    "https://www.backtoculture.com/images/slide%20(1).jpg"
+  ];
+
+
+
+  let currentHeroIndex = 0;
+  let interval;
+
+  const sliderDots = document.getElementById("sliderDots");
+
+  function updateHero() {
+    heroSection.style.backgroundImage = `url('${heroImages[currentHeroIndex]}')`;
+    updateDots();
+  }
+
+  function updateDots() {
+    const dots = sliderDots.querySelectorAll('span');
+    dots.forEach((dot, i) => {
+      dot.className = i === currentHeroIndex ? 'active' : '';
+    });
+  }
+
+  function nextSlide() {
+    currentHeroIndex = (currentHeroIndex + 1) % heroImages.length;
+    updateHero();
+    resetTimer();
+  }
+
+  function prevSlide() {
+    currentHeroIndex = (currentHeroIndex - 1 + heroImages.length) % heroImages.length;
+    updateHero();
+    resetTimer();
+  }
+
+  function goToSlide(index) {
+    currentHeroIndex = index;
+    updateHero();
+    resetTimer();
+  }
+
+  function resetTimer() {
+    clearInterval(interval);
+    interval = setInterval(nextSlide, 5000);
+  }
+
+  // Create dots
+  heroImages.forEach((_, i) => {
+    const dot = document.createElement("span");
+    dot.onclick = () => goToSlide(i);
+    sliderDots.appendChild(dot);
+  });
+
+  // Init
+  updateHero();
+  interval = setInterval(nextSlide, 5000);
+</script>
+
 
 </body>
 </html>

@@ -195,6 +195,10 @@
   <p>Follow us:
     <a href="https://www.facebook.com/people/WedWiseai/61574784322316/" target="_blank" rel="noopener noreferrer">Facebook</a>
   </p>
+  <p>
+    <a href="#" onclick="openAboutModal()">About Us</a> |
+    <a href="https://www.facebook.com/people/WedWiseai/61574784322316/" target="_blank">Facebook</a>
+  </p>
 </footer>
 
 <!-- Tasks Overview Modal -->
@@ -593,6 +597,37 @@ function openBudgetModal() {
     <button onclick="closeChatModal()" style="margin-left: 10px; background-color: #ccc;">Close</button>
   </div>
 </div>
+
+<!-- About Us Modal -->
+<div class="modal" id="aboutModal" style="display: none;">
+  <div class="modal-content" style="max-width: 600px; text-align: left; overflow-y: auto; max-height: 80vh;">
+    <h2 style="color: #FF69B4; margin-bottom: 10px;">About Us</h2>
+    <p>
+      We are a passionate group of students from the prestigious <strong>Indian School of Business (ISB)</strong>.
+      This website is a part of our final project for one of the most exciting courses at ISB, where we explored the
+      transformative power of Generative AI in real-world applications.
+    </p>
+    <p>
+      Every page, every feature you see here was designed and developed with immense love using <strong>ChatGPT</strong>,
+      reflecting how technology and creativity can combine to build something truly meaningful. Our goal is to help
+      wedding planning feel magical, organized, and accessible.
+    </p>
+    <p>
+      Thank you for visiting <strong>Wedwise.ai</strong> and being part of our journey. 💖
+    </p>
+    <button onclick="closeAboutModal()" style="margin-top: 15px; background-color: #FF69B4; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer;">Close</button>
+  </div>
+</div>
+
+<script>
+  function openAboutModal() {
+    document.getElementById('aboutModal').style.display = 'flex';
+  }
+
+  function closeAboutModal() {
+    document.getElementById('aboutModal').style.display = 'none';
+  }
+</script>
 
 
 </body>
